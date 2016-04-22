@@ -1,9 +1,14 @@
+#Source PCA :
+# Read the features file and spereate the HOG/HOFs vector
+# and applying PCA reduction to the features
+# Author : Alaa El-Nouby
+
 import numpy as np
 from sklearn.decomposition import PCA
 import pickle
 
-filenames=['Training/running_rslt.txt','Training/walking_rslt.txt','Training/jogging_rslt.txt','Training/boxing_rslt.txt',
-           'Training/handclapping_rslt.txt','Training/handwaving_rslt.txt']
+filenames=['Data/KTH/Training/running_rslt.txt','Data/KTH/Training/walking_rslt.txt','Data/KTH/Training/jogging_rslt.txt','Data/KTH/Training/boxing_rslt.txt',
+           'Data/KTH/Training/handclapping_rslt.txt','Data/KTH/Training/handwaving_rslt.txt']
 
 # TODO: Find a way to find a better PCA Reduction
 pca=PCA(n_components=130)
@@ -28,15 +33,10 @@ for fName in filenames:
     #     no=[float(x) for x in examples[i].split()]
     #     floats.append(no)
     featues=featues[1:,:]
-    # print((featues).shape)
     decomposed_examples=pca.fit(featues)
-    pickle.dump(decomposed_examples, open('PCA/'+fName+'.pickle', 'wb'))
-    # print((decomposed_examples).shape)
+    pickle.dump(decomposed_examples, open('Models/PCA/'+fName+'.pickle', 'wb'))
     print(pca.n_components_)
-    # print(pca.explained_variance_ratio_)
-    # print("==========================")
-    # np.savetxt("PCA/"+fName+".csv",decomposed_examples , delimiter=",")
+    print(pca.explained_variance_ratio_)
+    print("==========================")
+    np.savetxt("PCA/"+fName+".csv",decomposed_examples , delimiter=",")
     print("saved")
-
-
-

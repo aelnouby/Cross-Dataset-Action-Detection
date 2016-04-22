@@ -1,22 +1,30 @@
+# Scoring :
+# Using the adapted models (Theta_C)s and the Background model (theta_b)
+# to score each STIP (q) to determine if it belongs to the action or the Background
+# The output will be feed to the branch and bound alg. to determine the action Subvolumes
+# Author : Alaa El-Nouby
+# NOTE: The is a fault with Scoring right now
+
 import numpy as np
 import pickle
 import math
+import sys
 
 # Load Background Model
-theta_b = pickle.load(open('Theta_B/theta_b.pickle', 'rb'))
+theta_b = pickle.load(open('Models/Theta_B/theta_b.pickle', 'rb'),encoding='latin1')
 # Load Action Models
-theta_c1 = pickle.load(open('Theta_C/boxing.pickle', 'rb'))
-theta_c2 = pickle.load(open('Theta_C/handwaving.pickle', 'rb'))
-theta_c3 = pickle.load(open('Theta_C/handclapping.pickle', 'rb'))
+theta_c1 = pickle.load(open('Models/Theta_C/updated_handclapping.pickle', 'rb'))
+theta_c2 = pickle.load(open('Models/Theta_C/updated_handwaving.pickle', 'rb'))
+theta_c3 = pickle.load(open('Models/Theta_C/updated_boxing.pickle', 'rb'))
 
 # Load PCA background model
-pca_b = pickle.load(open('background_pcad.pickle', 'rb'))
+pca_b = pickle.load(open('Models/PCA/background.pickle', 'rb'),encoding='latin1')
 # Load PCA Action Model
-pca_c1 = pickle.load(open('PCA/boxing.pickle', 'rb'))
-pca_c2 = pickle.load(open('PCA/handwaving.pickle', 'rb'))
-pca_c3 = pickle.load(open('PCA/handclapping.pickle', 'rb'))
+pca_c1 = pickle.load(open('Models/PCA/handclapping.pickle', 'rb'))
+pca_c2 = pickle.load(open('Models/PCA/handwaving.pickle', 'rb'))
+pca_c3 = pickle.load(open('Models/PCA/boxing.pickle', 'rb'))
 
-f = open('Target/target.txt','rt')
+f = open('Data/MSR_Action_II/target.txt','rt')
 content = f.read()
 examples = content.split(',')
 counter = 1
@@ -30,7 +38,7 @@ for ex in examples:
         pts.append(p)
     arr = np.array(pts)
 
-    output = open('example_'+str(counter)+'.txt', 'w')
+    output = open('Scores/example_'+str(counter)+'.txt', 'w')
     stip_number = arr.shape[0]
     frames_number = int(arr[stip_number-1][6])
 
@@ -70,11 +78,4 @@ for ex in examples:
         output.write('\n')
 
     output.close()
-    break
     counter += 1
-
-
-
-
-
-

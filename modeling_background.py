@@ -1,3 +1,8 @@
+# Background Modeling :
+# Fitting the Background GMM model for the MSR_Action_II and applying PCA
+# reduction
+# Author : Alaa El-Nouby
+
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn import mixture
@@ -7,19 +12,22 @@ import pickle
 pca=PCA(n_components=130)
 g=mixture.GMM(n_components=512)
 
-with open("Target/target.txt") as f:
+with open("Data/MSR_Action_II/background.txt") as f:
     content = f.readlines()
 
 floats=[]
+print(len(content))
 
 # TODO: Use the Whole Data instead of half
-for i in range(int(len(content))):
+for i in range(int(len(content)/2)):
     f=[float(x) for x in content[i].split()]
     floats.append(f)
 
 
 arr = np.array(floats)
 arr = arr.astype(np.float16)
+
+print(arr[5,5])
 
 hogHof = arr[:,9:]
 

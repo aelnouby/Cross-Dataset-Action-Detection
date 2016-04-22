@@ -1,9 +1,15 @@
+# Visualize :
+# read the detcted regions from the branch and bound output
+# and Visualize the results using bounding boxes
+# Author : Alaa El-Nouby
+
 import cv2
 import numpy as np
 
+#path to video file
 cap = cv2.VideoCapture('/home/alaaelnouby/Desktop/Branch and Bound/stip-2.0-linux/MSR Action Dataset/1.avi')
 
-with open('cube.txt') as f:
+with open('/Branch&Bound binaries/cube.txt') as f:
     content = f.readlines()
 
 floats=[]
@@ -58,4 +64,3 @@ while cap.isOpened():
 
 cap.release()
 cv2.destroyAllWindows()
-
