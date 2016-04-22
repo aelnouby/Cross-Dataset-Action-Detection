@@ -14,6 +14,18 @@ is effective for the cross-dataset detection which adapts the model trained on K
 
 <img src="https://www.researchgate.net/profile/Liangliang_Cao2/publication/221361464/figure/fig1/Figure-1-The-framework-of-our-cross-dataset-action-detection-method.png">
 
+##Adaptation Results : 
+
+Using alpha = 0.1 in the mean adaptaion equation and executing `predict_target.py`, the results were as follows
+
+|          Adaptation          |    Accuracy      |    
+| ---------------------------- |:----------------:| 
+| No Adaptaion (pure KTH mode) |      46.4%       | 
+|        1st Iteration         |      80.6%       | 
+|        2nd Iteration         |      92.6%       | 
+|        3nd Iteration         |      94.62%      | 
+
+
 #Datasets
 I. Recognition of human actions, KTH. [[Data](http://www.nada.kth.se/cvap/actions/)]
 
@@ -21,6 +33,10 @@ II. MSR Action Dataset I [[Data](http://research.microsoft.com/en-us/um/people/z
 
 #Software
 Subvolume Branch-and-Bound Search binaries(WIN32) [[binaries](http://research.microsoft.com/en-us/um/people/zliu/actionrecorsrc/SubvolumeSearch.zip)]
+
+In Linux use wine as follows :
+
+`wine SubVolumeSearch.exe infile outfile numclasses width height penaltyValue classthreshold1 classthreshold2 ... classthresholdn`
 
 ##Refrences
 [1] Cao, Liangliang, Zicheng Liu, and Thomas S. Huang. "Cross-dataset action detection." Computer vision and pattern recognition (CVPR), 2010 IEEE conference on. IEEE, 2010. [[PDF](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.680.6094&rep=rep1&type=pdf)]
