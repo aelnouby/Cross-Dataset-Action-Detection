@@ -8,17 +8,18 @@
 import numpy as np
 import pickle
 import math
-import sys
+from sklearn import mixture
+from sklearn.decomposition import PCA
 
 # Load Background Model
-theta_b = pickle.load(open('Models/Theta_B/theta_b.pickle', 'rb'),encoding='latin1')
+theta_b = pickle.load(open('Models/Theta_B/theta_b.pickle', 'rb'), encoding='latin1')
 # Load Action Models
 theta_c1 = pickle.load(open('Models/Theta_C/updated_handclapping.pickle', 'rb'))
 theta_c2 = pickle.load(open('Models/Theta_C/updated_handwaving.pickle', 'rb'))
 theta_c3 = pickle.load(open('Models/Theta_C/updated_boxing.pickle', 'rb'))
 
 # Load PCA background model
-pca_b = pickle.load(open('Models/PCA/background.pickle', 'rb'),encoding='latin1')
+pca_b = pickle.load(open('Models/PCA/background.pickle', 'rb'), encoding='latin1')
 # Load PCA Action Model
 pca_c1 = pickle.load(open('Models/PCA/handclapping.pickle', 'rb'))
 pca_c2 = pickle.load(open('Models/PCA/handwaving.pickle', 'rb'))
@@ -46,20 +47,22 @@ for ex in examples:
     output.write('\n')
     output.write(str(frames_number))
     output.write('\n')
-    for q in arr:
-        y = q[4]
-        x = q[5]
-        t = q[6]
-        hogHof = q[9:]
-        _, posterior_c1 = theta_c1.score_samples(pca_c1.transform(hogHof))
-        _, posterior_c2 = theta_c2.score_samples(pca_c2.transform(hogHof))
-        _, posterior_c3 = theta_c3.score_samples(pca_c3.transform(hogHof))
-        _, posterior_b = theta_b.score_samples(pca_b.transform(hogHof))
 
-        score_b = np.dot(np.exp(posterior_b),theta_b.weights_)
-        score_c1 = np.dot(np.exp(posterior_c1),theta_c1.weights_)/score_b
-        score_c2 = np.dot(np.exp(posterior_c2),theta_c2.weights_)/score_b
-        score_c3 = np.dot(np.exp(posterior_c3), theta_c3.weights_)/score_b
+    # for q in arr:
+    y = arr[: ,4]
+    x = arr[:, 5]
+    t = arr[:, 6]
+    hogHof = arr[:, 9:]
+
+    _, posterior_c1 = theta_c1.score_samples(pca_c1.transform(hogHof))
+    _, posterior_c2 = theta_c2.score_samples(pca_c2.transform(hogHof))
+    _, posterior_c3 = theta_c3.score_samples(pca_c3.transform(hogHof))
+    _, posterior_b = theta_b.score_samples(pca_b.transform(hogHof))
+
+    score_b = np.dot(posterior_b,theta_b.weights_)
+    score_c1 = np.dot(posterior_c1,theta_c1.weights_)/score_b
+    score_c2 = np.dot(posterior_c2,theta_c2.weights_)/score_b
+    score_c3 = np.dot(posterior_c3, theta_c3.weights_)/score_b
 
 # print(r1)
         # print(r2)
@@ -67,14 +70,14 @@ for ex in examples:
         # print(rb)
         # print(np.sum(np.dot(r1,theta_c1.weights_)))
         # print("=========================")
-
-        output.write(str(int(x))+"\t")
-        output.write(str(int(y))+"\t")
-        output.write(str(int(t)) +"\t\t")
-        output.write(str("%.3f" %(math.log(score_c1*score_c2*score_c3*score_b))) + "\t")
-        output.write(str("%.3f" %(math.log(score_c1))) + "\t")
-        output.write(str("%.3f" %(math.log(score_c2))) + "\t")
-        output.write(str("%.3f" %(math.log(score_c3)))+"\t")
+    for k in range(len(score_b)):
+        output.write(str(int(x[k]))+"\t")
+        output.write(str(int(y[k]))+"\t")
+        output.write(str(int(t[k])) +"\t\t")
+        output.write(str("%.3f" %(math.log(score_c1[k]*score_c2[k]*score_c3[k]*score_b[k]))) + "\t")
+        output.write(str("%.3f" %(math.log(score_c1[k]))) + "\t")
+        output.write(str("%.3f" %(math.log(score_c2[k]))) + "\t")
+        output.write(str("%.3f" %(math.log(score_c3[k])))+"\t")
         output.write('\n')
 
     output.close()
