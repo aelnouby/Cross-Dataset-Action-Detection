@@ -1,5 +1,5 @@
 # Cross Dataset Action Detection
-** The Work is Stil in progress
+
 #Abstract
 In recent years, many research works have been carried out to recognize human actions from video clips. To
 learn an effective action classifier, most of the previous approaches rely on enough training labels. When being re-
@@ -18,13 +18,17 @@ is effective for the cross-dataset detection which adapts the model trained on K
 
 Using alpha = 0.1 in the mean adaptaion equation and executing `predict_target.py`, the results were as follows
 
-|          Adaptation          |    Accuracy      |    
-| ---------------------------- |:----------------:| 
-| No Adaptaion (pure KTH mode) |      46.4%       | 
-|        1st Iteration         |      80.6%       | 
-|        2nd Iteration         |      92.6%       | 
-|        3nd Iteration         |      94.62%      | 
+|          Adaptation          |    Microsoft Training      |  Microsoft Testing    |
+| ---------------------------- |:--------------------------:| :--------------------:|
+| No Adaptaion (pure KTH mode) |             37.2%          |         46.62%        |
+|        1st Iteration         |             77.3%          |         63.2%         |
+|        2nd Iteration         |             85.1%          |         67.85%        |
+|        3nd Iteration         |             94.5%          |         71.7%         |
 
+
+##Detection Results :
+
+<img src="https://aelnouby.github.io/static/img/GMM.png">
 
 #Datasets
 I. Recognition of human actions, KTH. [[Data](http://www.nada.kth.se/cvap/actions/)]
